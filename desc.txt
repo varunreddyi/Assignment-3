@@ -1,0 +1,19 @@
+The standard transport protocols riding above
+the IP layer are TCP and UDP, UDP provides simple datagram delivery to remote sockets, 
+that is, to ?host,port? pairs. TCP provides a much richer functionality for sending data, but requires that the 
+remote socket first be connected. In this chapter, we start with the much-simpler UDP, including the UDP-based 
+Trivial File Transfer Protocol.
+
+We also review some fundamental issues any transport protocol must address, such as lost final packets and
+ packets arriving late enough to be subject to misinterpretation upon arrival. These fundamental issues will 
+be equally applicable to TCP connections.
+
+The port numbers are what makes UDP into a real transport protocol: with them, an application can now
+ connect to an individual server process (that is, the process “owning” the port number in question),
+ rather than simply to a host.
+
+UDP is unreliable, in that there is no UDP-layer attempt at timeouts, acknowledgment and retransmission
+ applications written for UDP must implement these. As with TCP, a UDP ?host,port? pair is known as a socket 
+(though UDP ports are considered a separate namespace from TCP ports). UDP is also unconnected, or stateless
+ if an application has opened a port on a host, any other host on the Internet may deliver packets to that 
+?host,port? socket without preliminary negotiation.

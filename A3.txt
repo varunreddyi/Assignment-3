@@ -1,0 +1,49 @@
+import java.net.*;
+import java.io.*;
+
+public class stalks {
+
+    static public int port = 3006;
+    static public int bufsize = 600;
+    static public final int time = 15000; 
+
+    static public void main(String args[]) {
+        DatagramSocket s;               
+
+        try {
+            s = new DatagramSocket(port);
+        }
+        catch (SocketException se) {
+            System.err.println("cannot create socket with port " + port);
+            return;
+        }
+        try {
+            s.setSoTimeout(time);     
+        } catch (SocketException se) {
+            System.err.println("socket exception: time not set!");
+        }
+
+        
+        DatagramPacket msg = new DatagramPacket(new byte[bufsize], bufsize);
+
+        while(true) { 
+            try {
+                msg.setLength(bufsize);  
+                s.receive(msg);          
+                System.err.println("message from <" +
+                   msg.getAddress().getHostAddress() + "," + msg.getPort() + ">");
+            } catch (SocketTimeoutException ste) {   
+                System.err.println("Response timed out!");
+                continue;
+            } catch (IOException ioe) {               
+                System.err.println("Bad receive");
+                break;
+            }
+
+            String str = new String(msg.getData(), 0, msg.getLength());
+            System.out.print(str);       
+  }
+        s.close();
+    }
+}
+
